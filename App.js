@@ -1,63 +1,352 @@
-import React from "react"
-import ReactDOM from 'react-dom/client'
+import React from "react";
+import ReactDOM from "react-dom/client";
 
+/**
+ * Header
+ *  - Logo
+ *  - Nav Items
+ * Body
+ *  - Search
+ *  - RestaurantContainer
+ *     - RestaurantCards
+ *        - Img
+ *        - Name of Res, Star Rating, cuisine, Delivery time
+ * Footer
+ *  - Copyright
+ *  - Links
+ *  - Address
+ *  - Contact
+ */
 
-//  React.createElement => object => after rendering becomes(HTML Element)
+const Header = () => {
+  return (
+    <div className="header">
+      <div className="logo-container">
+        <img
+          className="logo"
+          src="https://t3.ftcdn.net/jpg/01/20/60/34/360_F_120603456_sLLQRuIEqtzJBzpNvINCjCAId2AHvMqd.jpg"
+        />
+      </div>
+      <div className="nav-items">
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Contact Us</li>
+          <li>Cart</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
 
-//Also below is a React element (we also know it as a variable in js)
-const heading = React.createElement("h1", {id:"heading"}, "React Learn")
-console.log(heading)
+const Body = () => {
+    return(
 
+        <div className="body">
+            <div className="search">Search</div>
+            <div className="res-container">
+               {/* <RestaurantCards resData={resList[0]} />
+               <RestaurantCards resData={resList[1]} />
+              <RestaurantCards resName="KFC" cuisine="Burger"/> */}
 
-// jsx is HTML like syntax or we can say XML like syntax (also a javascript object , ALl react elements are js objects only)
+              {resList.map((rrestaurant) => {return  <RestaurantCards key={rrestaurant.info.id} resData={rrestaurant} />}) 
+              
+              }
+               
+            </div>
 
-// JSX =>BAbel transplies it to React.createElement=> ReactElement - JS object => (HTML Element)(render)
-const jsxHeading = (<h1 id="child1">This is jSX heading test2</h1>)
-console.log(jsxHeading);
+        </div>
+    )
+};
 
-// components 
-// class based components
-// Functional components
+const CDN_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
 
-// Functional components are nothing but a normal JS functions returning a JSX
-// 
-// and React rule keep the first letter caps for components
+const RestaurantCards = (props) => {
+  // const {resName, cuisine}= props;
+  const {resData} = props;
+  const {name,cuisines,costForTwo,avgRating} = resData?.info;
+  // const {deliveryTime} = resData.info.sla.deliveryTime;
 
-const FunctionalComponent = () => {
-    return <h1>This is a functional component</h1>
-}
+  return (
+    <div className="res-card" style={{backgroundColor: "#f0f0f0"}}>
+    <img className="res-logo" alt="not render" src={CDN_URL + resData.info.cloudinaryImageId} />
 
-const FunctionalComponent2 = () => (
-     <h1>This is a functional component 222</h1>  //DONT PUT RETURN IN THIS FORMAT where we use ()
-)
+    <h3>{name}</h3>
+    <h4>{cuisines.join(", ")}</h4>
+    <h4>{costForTwo}</h4>
+    <h4>{avgRating} star</h4>
+    <h4>{resData.info.sla.deliveryTime} minutes</h4>
 
-// short hand way of writing a function
-
-const Fn =() => <h1 className="showr">Short hand Functional component</h1>
-const Fn2 =() => {
-return (<h1 
-
-className="multi">
+    </div>
     
-    multi line function
-    </h1>)}
 
+  );
+};
 
-console.log(Fn2)
+const AppLayout = () => {
+  return (
+    <div className="app">
+      <Header />
+      <Body/>
+    </div>
+  );
+};
 
-const Testing = () => (
-    <h1>
-        {Fn()}
-        <Fn></Fn>
-        <Fn2/>
-    </h1>
-)
+const resList = [
+{
+info: {
+id: "123456",
+name: "Pizza Paradise",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2025/6/17/6def0f0f-9e6c-45c0-b5e6-05af750f27b5_795906.JPG",
+locality: "MG Road",
+areaName: "Central District",
+costForTwo: "₹400 for two",
+cuisines: [
+"Pizza",
+"Italian",
+"Fast Food"
+],
+avgRating: 4.3,
+avgRatingString: "4.3",
+totalRatingsString: "10K+ ratings",
+veg: false,
+sla: {
+deliveryTime: 30,
+lastMileTravel: 3.5,
+slaString: "30 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "50% OFF",
+subHeader: "UPTO ₹100"
+}
+}
+},
+{
+info: {
+id: "234567",
+name: "Burger Hub",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2024/6/24/acfcaacc-edf0-4189-8264-d614d312c0ee_740457.JPG",
+locality: "Park Street",
+areaName: "Downtown",
+costForTwo: "₹300 for two",
+cuisines: [
+"Burgers",
+"American",
+"Fast Food"
+],
+avgRating: 4.5,
+avgRatingString: "4.5",
+totalRatingsString: "15K+ ratings",
+veg: false,
+sla: {
+deliveryTime: 25,
+lastMileTravel: 2,
+slaString: "25 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "40% OFF",
+subHeader: "UPTO ₹80"
+}
+}
+},
+{
+info: {
+id: "345678",
+name: "Green Bites",
+cloudinaryImageId: "e0839ff574213e6f35b3899ebf1fc597",
+locality: "Residency Road",
+areaName: "South Zone",
+costForTwo: "₹250 for two",
+cuisines: [
+"Healthy Food",
+"Salads",
+"Vegan"
+],
+avgRating: 4.7,
+avgRatingString: "4.7",
+totalRatingsString: "8K+ ratings",
+veg: true,
+sla: {
+deliveryTime: 20,
+lastMileTravel: 1.5,
+slaString: "20 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "30% OFF",
+subHeader: "UPTO ₹75"
+}
+}
+},
+{
+info: {
+id: "456789",
+name: "Spice Kingdom",
+cloudinaryImageId: "rng/md/carousel/production/indian101",
+locality: "Brigade Road",
+areaName: "City Center",
+costForTwo: "₹500 for two",
+cuisines: [
+"Indian",
+"North Indian",
+"Biryani"
+],
+avgRating: 4.2,
+avgRatingString: "4.2",
+totalRatingsString: "12K+ ratings",
+veg: false,
+sla: {
+deliveryTime: 35,
+lastMileTravel: 4,
+slaString: "35 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "20% OFF",
+subHeader: "UPTO ₹50"
+}
+}
+},
+{
+info: {
+id: "567890",
+name: "Chinese Dragon",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2025/6/18/ba9f1f59-30d5-44de-afad-df6db8471ead_9648.jpg",
+locality: "Commercial Street",
+areaName: "East District",
+costForTwo: "₹350 for two",
+cuisines: [
+"Chinese",
+"Asian",
+"Thai"
+],
+avgRating: 4.4,
+avgRatingString: "4.4",
+totalRatingsString: "9K+ ratings",
+veg: false,
+sla: {
+deliveryTime: 28,
+lastMileTravel: 2.8,
+slaString: "28 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "60% OFF",
+subHeader: "UPTO ₹120"
+}
+}
+},
+{
+info: {
+id: "678901",
+name: "Dessert Delight",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2024/11/8/731001f1-f1c4-4f5f-849f-79a697cb0b72_390173.jpg",
+locality: "Lavelle Road",
+areaName: "West End",
+costForTwo: "₹200 for two",
+cuisines: [
+"Desserts",
+"Ice Cream",
+"Bakery"
+],
+avgRating: 4.6,
+avgRatingString: "4.6",
+totalRatingsString: "7K+ ratings",
+veg: true,
+sla: {
+deliveryTime: 22,
+lastMileTravel: 1.8,
+slaString: "22 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "25% OFF",
+subHeader: "UPTO ₹60"
+}
+}
+},
+{
+info: {
+id: "789012",
+name: "Sushi Station",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2024/6/24/acfcaacc-edf0-4189-8264-d614d312c0ee_740457.JPG",
+locality: "Indiranagar",
+areaName: "Uptown",
+costForTwo: "₹800 for two",
+cuisines: [
+"Japanese",
+"Sushi",
+"Asian"
+],
+avgRating: 4.8,
+avgRatingString: "4.8",
+totalRatingsString: "5K+ ratings",
+veg: false,
+sla: {
+deliveryTime: 40,
+lastMileTravel: 5.2,
+slaString: "40 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "15% OFF",
+subHeader: "UPTO ₹150"
+}
+}
+},
+{
+info: {
+id: "890123",
+name: "South Spice",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2025/6/17/6def0f0f-9e6c-45c0-b5e6-05af750f27b5_795906.JPG",
+locality: "Jayanagar",
+areaName: "South Bangalore",
+costForTwo: "₹300 for two",
+cuisines: [
+"South Indian",
+"Dosa",
+"Idli"
+],
+avgRating: 4.5,
+avgRatingString: "4.5",
+totalRatingsString: "11K+ ratings",
+veg: true,
+sla: {
+deliveryTime: 25,
+lastMileTravel: 3,
+slaString: "25 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "35% OFF",
+subHeader: "UPTO ₹70"
+}
+}
+},
+{
+info: {
+id: "901234",
+name: "Pasta Palace",
+cloudinaryImageId: "RX_THUMBNAIL/IMAGES/VENDOR/2025/10/17/7bd350a8-55e7-459b-83a2-e250e670d194_14558.JPG",
+locality: "Koramangala",
+areaName: "Tech Hub",
+costForTwo: "₹450 for two",
+cuisines: [
+"Italian",
+"Pasta",
+"Continental"
+],
+avgRating: 4.1,
+avgRatingString: "4.1",
+totalRatingsString: "6K+ ratings",
+veg: false,
+sla: {
+deliveryTime: 32,
+lastMileTravel: 3.8,
+slaString: "32 mins"
+},
+aggregatedDiscountInfoV3: {
+header: "45% OFF",
+subHeader: "UPTO ₹90"
+}
+}
+}
+]
 
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'))
-
-// root.render(FunctionalComponent()) 
-// root.render(<FunctionalComponent2/>) //This is how we render a functionalcomponent
-
-root.render(<Testing/>)
+root.render(<AppLayout />);

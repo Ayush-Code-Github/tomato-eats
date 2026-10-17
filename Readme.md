@@ -14,3 +14,6 @@ JSX is not a valid js code or it is not undertood by browser , react and JS engi
 - one component inside other component.
 
 # JSX sanitizes the data before executing it and prevents cross site scripting atttacks
+
+
+# config driven UI
